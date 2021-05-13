@@ -2,11 +2,19 @@ import React, { Component} from "react";
 import styled, { css } from 'styled-components';
 import JsBarcode from 'jsbarcode';
 import BarcodeItemText from './BarcodeItemText.js';
+import { Draggable } from 'react-beautiful-dnd';
+
 
 const Container = styled.div`
   margin: 8px;
   display: flex;
   justify-content: space-between;
+  background-color: white;
+  border-radius: 10px;
+
+  ${props => props.hoveringTrash && css`
+    background-color: #ff1744;
+  `}
 `;
 
 const Column = styled.div`
@@ -52,17 +60,27 @@ class BarcodeItem extends Component {
 
   render(){
     return(
-      <Container>
-        <Column first>
-          <BarcodeItemText editHandler={this.props.editHandler('name')} text={this.props.name}/>
-        </Column>
-        <Column>
-          <BarcodeItemText editHandler={this.props.editHandler('code')} text={this.props.code}/>
-        </Column>
-        <Column>
-          <svg id={this.id}></svg>
-        </Column>
-      </Container>
+      <Draggable draggableId={this.props.itemId} index={this.props.index}>
+        {(provided, snapshot) => (
+          <Container
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            ref={provided.innerRef}
+
+            hoveringTrash={snapshot.isDragging && snapshot.draggingOver === 'trashBin'}
+          >
+            <Column first>
+              <BarcodeItemText editHandler={this.props.editHandler('name')} text={this.props.name}/>
+            </Column>
+            <Column>
+              <BarcodeItemText numbers editHandler={this.props.editHandler('code')} text={this.props.code}/>
+            </Column>
+            <Column>
+              <svg id={this.id}></svg>
+            </Column>
+          </Container>
+        )}
+      </Draggable>
     )
   }
 }

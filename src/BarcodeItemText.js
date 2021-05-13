@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components';
 const EditableText = styled(ContentEditable)`
   font-family: 'Nunito', sans-serif;
   font-size: 35px;
+  cursor: text;
 `;
 
 class BarcodeItemText extends React.Component {
@@ -15,8 +16,11 @@ class BarcodeItemText extends React.Component {
   };
 
   handleChange = evt => {
-    this.setState({html: evt.target.value});
-    this.props.editHandler(evt.target.value);
+    let content = evt.target.value;
+    if(this.props.numbers) content = evt.target.value.replace(/[^0-9]/g, '');
+
+    this.setState({html: content});
+    this.props.editHandler(content);
   };
 
   render = () => {
@@ -26,6 +30,7 @@ class BarcodeItemText extends React.Component {
               disabled={false}       // use true to disable editing
               onChange={this.handleChange} // handle innerHTML change
               tagName='span' // Use a custom HTML tag (uses a div by default)
+              spellCheck='false'
             />
   };
 };

@@ -8,8 +8,8 @@ class Toolbar extends Component{
   render(){
     return(
       <div className="Toolbar">
-        <ButtonGroup className="toolButtons" color="primary" aria-label="outlined primary button group">
-          <Button color="secondary" variant="contained"><DeleteOutlinedIcon /></Button>
+        <ButtonGroup className="toolButtons" style={{ color: '#ff1744' }} aria-label="outlined primary button group">
+          <Button onClick={this.props.onClear} color="secondary" variant="contained"><DeleteOutlinedIcon /></Button>
           <Button><PrintIcon /></Button>
           <Button>Ipsum</Button>
         </ButtonGroup>
