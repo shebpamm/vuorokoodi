@@ -17,15 +17,12 @@ class App extends Component{
     super(props)
     this.state = {
       barcodeItems: {
-        'barcode-1': { id: "barcode-1", name: "Erik Karsten", code: "12345678" },
-        'barcode-2': { id: "barcode-2", name: "Otava Mäkinen", code: "12345678" },
-        'barcode-3': { id: "barcode-3", name: "Sorsa Lampi", code: "13345678" },
-        'barcode-4': { id: "barcode-4", name: "Lorem Ipsum", code: "23345678" },
+        
       },
       columns: {
         mainColumn: {
           id: 'mainColumn',
-          itemIds: ['barcode-1', 'barcode-2', 'barcode-3']
+          itemIds: []
         }
       },
       dragHappening: false
