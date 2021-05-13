@@ -18,7 +18,7 @@ const StyledDeleteOutlinedIcon = styled(DeleteOutlinedIcon)`
 const Container = styled.div`
   margin: 8px;
   border: 2px solid lightgrey;
-  border-radius: 2px;
+  border-radius: 8px;
   display: flex;
   justify-content: center;
 
@@ -36,6 +36,7 @@ class BarcodeTrashbin extends Component {
         <Container
           ref={provided.innerRef}
           {...provided.droppableProps}
+          style={this.props.style}
         >
           <StyledDeleteOutlinedIcon style={{ color: '#fefefe' }} fontSize="large" />
           {provided.placeholder}

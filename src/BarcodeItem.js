@@ -4,17 +4,23 @@ import JsBarcode from 'jsbarcode';
 import BarcodeItemText from './BarcodeItemText.js';
 import { Draggable } from 'react-beautiful-dnd';
 
+//Patching react-beautiful-dnd animation to use custom transition
+function getStyle(style, snapshot) {
+  if (snapshot.isDragging) {
+    return {
+      ...style,
+      transition: style.transition + `, background-color .2s`,
+    };
+  }
+  return style
+}
 
 const Container = styled.div`
   margin: 8px;
   display: flex;
   justify-content: space-between;
-  background-color: white;
+  background: ${props => (props.hoveringTrash ? '#ff1744' : 'white')};
   border-radius: 10px;
-
-  ${props => props.hoveringTrash && css`
-    background-color: #ff1744;
-  `}
 `;
 
 const Column = styled.div`
@@ -45,7 +51,8 @@ class BarcodeItem extends Component {
   componentDidMount(){
     JsBarcode('#' + this.id, this.props.code, {
       format: "CODE39",
-      displayValue: false
+      displayValue: false,
+      background: null
     });
   }
 
@@ -66,6 +73,8 @@ class BarcodeItem extends Component {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             ref={provided.innerRef}
+            isDragging={snapshot.isDragging && !snapshot.isDropAnimating}
+            style={getStyle(provided.draggableProps.style, snapshot)}
 
             hoveringTrash={snapshot.isDragging && snapshot.draggingOver === 'trashBin'}
           >

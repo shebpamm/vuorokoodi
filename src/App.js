@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {hot} from "react-hot-loader";
 import update from 'immutability-helper';
+import { Transition } from 'react-transition-group';
 import "./App.css";
 
 import Container from '@material-ui/core/Container';
@@ -126,6 +127,19 @@ class App extends Component{
     });
   }
 
+
+  defaultStyle = {
+    transition: `opacity ${200}ms ease-in-out`,
+    opacity: 0,
+  }
+
+  transitionStyles = {
+    entering: { opacity: 1 },
+    entered:  { opacity: 1 },
+    exiting:  { opacity: 0 },
+    exited:  { opacity: 0 },
+  };
+
   render(){
     return(
       <div className="App">
@@ -137,9 +151,14 @@ class App extends Component{
               editHandler={this.updateEdits.bind(this)}
               data={this.state.columns.mainColumn.itemIds.map(id => this.state.barcodeItems[id])}
             />
-            {this.state.dragHappening &&
-              <BarcodeTrashbin />
-            }
+            <Transition in={this.state.dragHappening} timeout={500}>
+              { state => (
+                <BarcodeTrashbin style={{
+                  ...this.defaultStyle,
+                  ...this.transitionStyles[state]
+                }} />
+              )}
+            </Transition>
           </Container>
         </DragDropContext>
       </div>
