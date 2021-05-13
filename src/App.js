@@ -12,22 +12,31 @@ import BarcodeInput from "./BarcodeInput.js";
 import BarcodeTrashbin from "./BarcodeTrashbin.js";
 
 import { DragDropContext } from 'react-beautiful-dnd';
+import ls from 'local-storage';
+
 
 class App extends Component{
   constructor(props) {
     super(props)
-    this.state = {
-      barcodeItems: {
-        
-      },
-      columns: {
-        mainColumn: {
-          id: 'mainColumn',
-          itemIds: []
-        }
-      },
-      dragHappening: false
+
+    if(!ls('data')) {
+      this.state = {
+        barcodeItems: {},
+        columns: {
+          mainColumn: {
+            id: 'mainColumn',
+            itemIds: []
+          }
+        },
+        dragHappening: false
+      }
+    } else {
+      this.state = JSON.parse(ls('data'));
     }
+  }
+
+  componentDidUpdate() {
+    ls('data', JSON.stringify(this.state))
   }
 
   updateEdits = id => prop => value => {
@@ -74,7 +83,7 @@ class App extends Component{
   onDragEnd(result) {
     this.setState({
       dragHappening: false
-    })
+    });
 
 
     const { destination, source, draggableId } = result;
